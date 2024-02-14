@@ -75,4 +75,3 @@ Acknowledgements
 
 The development of the Student Management System would not have been possible without the support and contributions of various individuals and organizations. Special thanks to the contributors, testers, and users who have provided valuable feedback and assistance throughout the development process.
 
-Note: Customize the README further based on specific project details, including additional features, branch-specific implementations, deployment instructions, and usage examples. Ensure clarity and comprehensiveness to facilitate understanding and adoption by users and contributors.
