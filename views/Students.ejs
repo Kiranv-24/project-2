@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vollkorn&display=swap" rel="stylesheet">
+    <title>Student Management System</title>
+    <style>
+        body {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgb(131, 140, 190);
+        }
+
+        header img {
+            margin-left: 50px;
+            width: 70px;
+            border-radius: 40px;
+        }
+
+        header img:hover {
+            transform: scale(1.3); /* Increasing the size on hover */
+        }
+
+        .welcome-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-message {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #student-info span {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .box-container {
+            display: flex;
+            justify-content: space-around;
+            width: 80%; /* Increased width */
+            margin-bottom: 20px;
+        }
+
+        .box {
+            flex: 1;
+            background-color: #fff;
+            padding: 30px; /* Increased padding */
+            margin: 0 20px; /* Increased margin */
+            border: 2px solid #4CAF50;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .box:hover {
+            transform: scale(1.05); /* Increased scale on hover */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Increased box-shadow on hover */
+        }
+
+        .box-title {
+            font-size: 20px; /* Adjusted font size */
+            font-weight: bold;
+            margin-bottom: 15px; /* Increased margin */
+        }
+
+        .box-content {
+            font-size: 18px; /* Adjusted font size */
+            color: #333;
+        }
+
+        .view-marks-button {
+            padding: 20px 40px; /* Increased padding */
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 20px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-marks-button:hover {
+            background-color: #45a049; /* Darker color on hover */
+        }
+
+        @media (max-width: 768px) {
+            .box-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .box {
+                width: 100%;
+                margin: 15px 0; /* Increased margin */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Student marks</h1>
+        <img src="R.V._College_of_Engineering_logo.png" alt="" class="logo">
+    </header>
+
+    <div class="welcome-container">
+        <% if (data) { %>
+            <div id="student-info">
+                <span>Welcome, <%= data.Name %></span><br>
+                <span>USN: <%= data.USN %></span>
+            </div>
+        <% } else { %>
+            <div style="display: none;"></div>
+        <% } %>
+    </div>
+
+<div class="box-container">
+    <div class="box" onclick="viewMarks('<%= data.USN %>', 'ADLDCO')">
+        <div class="box-title">ADLDCO</div>
+        <div class="box-content">Click to view marks</div>
+    </div>
+    <div class="box" onclick="viewMarks('<%= data.USN %>', 'OS')">
+        <div class="box-title">OS</div>
+        <div class="box-content">Click to view marks</div>
+    </div>
+    <div class="box" onclick="viewMarks('<%= data.USN %>', 'DSA')">
+        <div class="box-title">DSA</div>
+        <div class="box-content">Click to view marks</div>
+    </div>
+    <div class="box" onclick="viewMarks('<%= data.USN %>', 'MATHS')">
+        <div class="box-title">MATHS</div>
+        <div class="box-content">Click to view marks</div>
+    </div>
+</div>
+
+<button class="view-marks-button" onclick="viewOverallMarks('<%= data.USN %>')">Click to View Overall Marks</button>
+
+<script>
+    function viewMarks(USN,subject) {
+        // Implement logic to view marks for the specific subject
+        window.location.href = '/stud2?USN=' + USN + '&subject=' + subject;
+    }
+     
+
+        function viewOverallMarks(USN) {
+            // Implement logic to view overall marks
+            window.location.href = '/stud?USN=' + USN;
+        }
+    </script>
+
+</body>
+
+</html>

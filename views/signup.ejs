@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="practice.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+
+        <form action="/signup" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <!-- CSRF Token: Include this in your actual code -->
+            <!-- <input type="hidden" name="_csrf" value="your-csrf-token"> -->
+
+            <button type="submit">signup</button>
+        </form>
+
+        
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Marks</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff; /* Add background color */
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 5px; /* Add border radius */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box shadow */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header .subject {
+    font-size: 24px;
+    color: #333;
+    text-shadow: 1px 1px 1px #ccc;
+}
+
+.header .buttons {
+    display: flex;
+}
+
+.buttons button {
+    margin-left: 10px;
+    padding: 8px 15px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add transition */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.buttons button:hover {
+    background-color: #45a049; /* Darker green */
+    transform: translateY(-2px); /* Add hover effect */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px; /* Add border radius */
+    border-collapse: separate; /* Add 3D border effect */
+    border-spacing: 0; /* Add 3D border effect */
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:last-child {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: #eaf6ff;
+}
+
+input[type="number"] {
+    width: 40px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    transition: border-color 0.3s ease;
+    text-align: center;
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: dodgerblue;
+}
+
+.marks {
+    width: 3em;
+}
+
+.submit {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add transition */
+    margin-top: 14px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.submit:hover {
+    background-color: #d32f2f; /* Darker red */
+    transform: translateY(-2px); /* Add hover effect */
+}
+
+
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="subject">Mathematics</div>
+        <div class="buttons">
+            <button onclick="re()">Refresh</button>
+            <button onclick="importCSV()">Import CSV</button>
+            <button onclick="exportCSV()">Export CSV</button>
+        </div>
+    </div>
+    
+    <table>
+       <thead>
+        <tr>
+            <th style="width: 15%;">Name</th>
+            <th style="width: 15%;">USN</th>
+            <th style="width: 7%;">QUIZ 1</th>
+            <th style="width: 7%;">QUIZ 2</th>
+            <th style="width: 7%;">TEST 1</th>
+            <th style="width: 7%;">TEST 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% datas.forEach(data => { %>
+            <% if (data) { %>
+                <tr>
+                    <td><%= data.Name %></td>
+                    <td><%= data.USN %></td>
+                <td>
+                    <form id="dataForm_<%= data.USN %>" action="/updateall" method="POST">
+                        <input type="hidden" name="usn" value="<%= data.USN %>">
+                        <input type="number" onkeydown="navigateInputs(event, this)" name="q1_<%= data.USN %>" value="<%= data.Subjects[a.subject].q1 || '' %>" placeholder="N/A" class="marks"  >
+                    
+                </td>
+    
+                <td>
+                    <form id="dataForm_<%= data.USN %>" action="/updateall" method="POST">
+                        <input type="hidden" name="usn" value="<%= data.USN %>">
+                        <input type="number" name="q2_<%= data.USN %>" value="<%= data.Subjects[a.subject].q2 || '' %>" placeholder="N/A" class="marks" onkeydown="navigateInputs(event, this)">
+                
+                </td> 
+    
+               
+                <td>
+                    <form id="dataForm_<%= data.USN %>" action="/updateall" method="POST">
+                        <input type="hidden" name="usn" value="<%= data.USN %>">
+                        <input type="number" name="t1_<%= data.USN %>" value="<%= data.Subjects[a.subject].t1 || '' %>" placeholder="N/A" class="marks" onkeydown="navigateInputs(event, this)">
+                
+                </td>
+                <td>
+                    <form id="dataForm_<%= data.USN %>" action="/updateall" method="POST">
+                        <input type="hidden" name="usn" value="<%= data.USN %>">
+                        <input type="number" name="t2_<%= data.USN %>" value="<%= data.Subjects[a.subject].t2 || '' %>" placeholder="N/A" class="marks" onkeydown="navigateInputs(event, this)">
+                
+                </td>
+                   
+               
+                </tr>
+                 
+            <% } %>
+        <% }); %>
+        <!-- Add more rows as needed -->
+    </tbody>
+</table>
+
+
+<form id="updateAllForm" action="/updateall?quiz=<%=encodeURIComponent(quizType)%>" method="POST" enctype="multipart/form-data">
+  <!-- Hidden input to store the quizType -->
+  <input type="hidden" name="quiz" value="<%=quizType%>">
+  <button type="submit" class="submit">Upload</button>
+</form>
+
+
+<script>
+const quizType='<%=quizType%>'
+
+
+console.log("aaaa:",quizType)
+
+
+const headers = document.querySelectorAll('th');
+
+// Loop through each header
+headers.forEach(header => {
+    // Check the text content of the header after converting to lowercase
+    const headerText = header.textContent.trim().toLowerCase();
+    // Check if the header is 'Name', 'USN', or matches the quizType after converting to lowercase
+    if (headerText !== 'name' && headerText !== 'usn' && headerText !== quizType.toLowerCase()) {
+        // Hide the corresponding header
+        header.style.display = 'none';
+        // Get the index of the header column
+        const columnIndex = header.cellIndex;
+        // Hide the corresponding cells for this column
+        const cells = document.querySelectorAll(`td:nth-child(${columnIndex + 1})`);
+        cells.forEach(cell => {
+            cell.style.display = 'none';
+        });
+    }
+});
+
+
+
+function exportCSV() {
+    let csvContent = "data:text/csv;charset=utf-8,";
+
+    // Add header for Name, USN, SubjectQ1, and SubjectQ2
+    csvContent += "Name,USN," + subject + "Q1," + subject + "Q2\n";
+
+    // Iterate over each row in the table
+    const rows = document.querySelectorAll("table tbody tr");
+    rows.forEach(function(row) {
+        // Extract data from the row
+        const name = row.querySelector("td:nth-child(1)").innerText.trim();
+        const usn = row.querySelector("td:nth-child(2)").innerText.trim();
+        const subjectQ1 = row.querySelector("input[name^='q1_']").value.trim(); // Get SubjectQ1 value
+        const subjectQ2 = row.querySelector("input[name^='q2_']").value.trim(); // Get SubjectQ2 value
+        const subjectT1 = row.querySelector("input[name^='t1_']").value.trim(); // Get SubjectQ1 value
+        const subjectT2 = row.querySelector("input[name^='t2_']").value.trim(); // Get SubjectQ2 value
+        
+        // Add data to the CSV content
+        csvContent += `${name},${usn},${subjectQ1},${subjectQ2},${subjectT1},${subjectT2}\n`;
+    });
+
+    // Create a download link and trigger the download
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "student_marks.csv");
+    document.body.appendChild(link);
+    link.click();
+}
+
+// Find the first input field with name attribute starting with "q1_"
+const input = document.querySelector('input[name^="q1_"]');
+
+
+
+function navigateInputs(event, currentInput) {
+    const arrowKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+
+    if (arrowKeys.includes(event.key)) {
+        event.preventDefault();
+
+        const row = currentInput.closest('tr');
+        const rowIndex = Array.from(row.parentElement.children).indexOf(row);
+        const columnIndex = Array.from(row.children).indexOf(currentInput.closest('td'));
+
+        let nextRow, nextColumn;
+
+        if (event.key === 'ArrowRight') {
+            nextColumn = findNextNonEmptyColumn(row, columnIndex + 1);
+            nextRow = row;
+        } else if (event.key === 'ArrowLeft') {
+            nextColumn = findPreviousNonEmptyColumn(row, columnIndex - 1);
+            nextRow = row;
+        } else if (event.key === 'ArrowDown') {
+            nextRow = findNextNonEmptyRowInColumn(row, rowIndex + 1, columnIndex);
+            nextColumn = columnIndex;
+        } else if (event.key === 'ArrowUp') {
+            nextRow = findPreviousNonEmptyRow(row, rowIndex - 1, columnIndex);
+            nextColumn = columnIndex;
+        }
+
+        if (nextRow) {
+            const nextInput = nextRow.children[nextColumn].querySelector('input[type="number"]');
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
+}
+ const subject = '<%= a.subject %>';
+function findNextNonEmptyColumn(row, startColumn) {
+    for (let i = startColumn; i < row.children.length; i++) {
+        if (row.children[i].querySelector('input[type="number"]')) {
+            return i;
+        }
+    }
+    return startColumn;
+}
+
+function findPreviousNonEmptyColumn(row, startColumn) {
+    for (let i = startColumn; i >= 0; i--) {
+        if (row.children[i].querySelector('input[type="number"]')) {
+            return i;
+        }
+    }
+    return startColumn;
+}
+
+function findNextNonEmptyRowInColumn(currentRow, startRow, columnIndex) {
+    const numRows = currentRow.parentElement.children.length;
+
+    for (let i = startRow; i < numRows + startRow; i++) {
+        const nextRow = currentRow.parentElement.children[i % numRows];
+
+        if (nextRow.querySelector('input[type="number"]')) {
+            return nextRow;
+        }
+    }
+
+    return currentRow;
+}
+
+function findPreviousNonEmptyRow(row, startRow, columnIndex) {
+    const numRows = row.parentElement.children.length;
+
+    for (let i = startRow; i >= startRow - numRows; i--) {
+        const prevRow = row.parentElement.children[(i + numRows) % numRows];
+
+        if (prevRow.querySelector('input[type="number"]')) {
+            return prevRow;
+        }
+    }
+
+    return row;
+}
+
+
+function re() {
+     window.location.href = '/edit?quiz=' + encodeURIComponent(quizType);
+}
+
+function importCSV() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv';
+    input.addEventListener('change', handleFileSelect);
+    input.click();
+}
+
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const csv = e.target.result;
+        processData(csv);
+    };
+    reader.readAsText(file);
+}
+function processData(csv) {
+    const rows = csv.split('\n');
+    const headers = rows[0].split(',').map(header => header.trim());
+    const usnIndex = headers.indexOf('USN'); // Find the index of the USN column in the headers
+    const subject = '<%= a.subject %>'; // Assuming a.subject contains the subject name
+
+    for (let i = 1; i < rows.length; i++) {
+        // Skip empty rows
+        if (rows[i].trim() === '') {
+            continue;
+        }
+
+        const columns = rows[i].split(',').map(column => column.trim());
+
+        // Ensure the number of columns matches the number of headers
+        if (columns.length !== headers.length) {
+            console.log(`Row ${i + 1}: Incorrect number of columns`);
+            console.log('Problematic Row:', rows[i]); // Log the problematic row
+            continue;
+        }
+
+        const studentData = {};
+        
+        // Extract USN from the correct column using the index
+        const usn = columns[usnIndex];
+
+        // Populate studentData object with USN
+        studentData.USN = usn;
+
+        // Find the existing input field with the corresponding USN for q1
+        const q1Input = document.querySelector(`input[name="q1_${usn}"]`);
+
+        // If the q1 input field exists, update its value with the CSV data
+        if (q1Input && headers.indexOf(`Subjects.${subject}.q1`) !== -1) {
+        q1Input.value = columns[headers.indexOf(`Subjects.${subject}.q1`)];
+    }
+ else {
+            console.error(`Input field not found for q1 and USN ${usn}`);
+        }
+
+        // Find the existing input field with the corresponding USN for q2
+        const t1Input = document.querySelector(`input[name="t1_${usn}"]`);
+
+    
+    if (t1Input && headers.indexOf(`Subjects.${subject}.t1`) !== -1) {
+        t1Input.value = columns[headers.indexOf(`Subjects.${subject}.t1`)];
+    }else {
+            console.error(`Input field not found for t1 and USN ${usn}`);
+        }
+        const q2Input = document.querySelector(`input[name="q2_${usn}"]`);
+    if (q2Input && headers.indexOf(`Subjects.${subject}.q2`) !== -1) {
+        q2Input.value = columns[headers.indexOf(`Subjects.${subject}.q2`)];
+    }else {
+            console.error(`Input field not found for q2 and USN ${usn}`);
+        }
+         const t2Input = document.querySelector(`input[name="t2_${usn}"]`);
+    if (t2Input && headers.indexOf(`Subjects.${subject}.t2`) !== -1) {
+        t2Input.value = columns[headers.indexOf(`Subjects.${subject}.t2`)];
+    }else {
+            console.error(`Input field not found for t2 and USN ${usn}`);
+        }
+    }
+}
+
+
+
+</script>
+
+
+</body>
+</html>

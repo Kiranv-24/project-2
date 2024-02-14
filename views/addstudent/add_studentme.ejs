@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #343a40;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            color: #007bff;
+        }
+
+        .add-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #007bff;
+        }
+
+        .add-form input {
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background-color: #f5f5f5; /* Light background color */
+            transition: border-color 0.3s ease; /* Transition for border color change */
+        }
+
+        .add-form button {
+            width: 100%;
+            background-color: #007bff; /* Button color */
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-form button:hover {
+            background-color: #0056b3; /* Darker button color on hover */
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .view-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Add this style for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        #errorMessage {
+            color: red; /* Change the error message color to red */
+            font-size: 14px;
+            margin-top: -8px;
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            color: red; /* Add this line to set the error message color to red */
+        }
+
+	.form-title {
+            color: #007bff;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Add Student</h1>
+    </header>
+
+   <section>
+	<div class="form-title">
+            Add New Student
+        </div>
+        <form class="add-form" id="addStudentForm">
+            <label for="usn">USN:</label>
+            <input type="text" id="usn" name="usn" required oninput="validateInput('usn')">
+            <div id="usnError" class="error-message"></div>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required oninput="validateInput('name')">
+            <div id="nameError" class="error-message"></div>
+
+            <button type="button" onclick="addStudent()">Add Student</button>
+        </form>
+
+        <div class="button-container">
+            <button class="view-button" onclick="goBack()">Go Back</button>
+        </div>
+    </section>
+    <div id="successModal" class="modal">
+        <p>Student added successfully!</p>
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <script>
+        var previousPage = '';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            previousPage = window.location.href;
+        });
+
+        async function addStudent() {
+            var form = document.getElementById("addStudentForm");
+            var usn = form.elements["usn"].value;
+            var name = form.elements["name"].value;
+
+            // Validate USN format (alphanumeric)
+            if (!/^[a-zA-Z0-9]+$/.test(usn)) {
+                showValidationError("usnError", "Invalid USN. Only alphanumeric characters are allowed.");
+                return;
+            }
+
+            // Validate Name format (letters only)
+            if (!/^[a-zA-Z]+$/.test(name)) {
+                showValidationError("nameError", "Invalid Name. Only letters are allowed.");
+                return;
+            }
+
+            try {
+                // Send the data to the server using fetch API
+                await fetch('/addme', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ USN: usn, Name: name }),
+                });
+
+                // Show success message in a modal
+                showSuccessMessage();
+            } catch (error) {
+                console.error('Error adding data:', error);
+                // Handle error as needed
+            }
+        }
+
+        function showSuccessMessage() {
+            // Clear the form
+            var form = document.getElementById("addStudentForm");
+            form.reset();
+
+            // Show modal
+            var modal = document.getElementById("successModal");
+            var overlay = document.getElementById("overlay");
+            modal.style.display = "block";
+            overlay.style.display = "block";
+
+            // Hide modal after 3 seconds (adjust the timeout as needed)
+            setTimeout(function () {
+                modal.style.display = "none";
+                overlay.style.display = "none";
+            }, 3000);
+        }
+
+        function showValidationError(elementId, message) {
+            // Show validation error message in red
+            var errorElement = document.getElementById(elementId);
+            errorElement.innerText = message;
+
+            // Make the input box red
+            var inputElement = document.getElementById(elementId.replace("Error", ""));
+            inputElement.style.borderColor = "red";
+        }
+
+        function resetValidationStyles() {
+            // Reset validation error messages and input box styles
+            var usnErrorElement = document.getElementById("usnError");
+            var nameErrorElement = document.getElementById("nameError");
+
+            usnErrorElement.innerText = "";
+            nameErrorElement.innerText = "";
+
+            var usnInput = document.getElementById("usn");
+            var nameInput = document.getElementById("name");
+
+            usnInput.style.borderColor = "";
+            nameInput.style.borderColor = "";
+        }
+
+        function goBack() {
+            history.back();
+        }
+	function clearValidationError(elementId) {
+            var errorElement = document.getElementById(elementId);
+            errorElement.innerText = "";
+
+            var inputElement = document.getElementById(elementId.replace("Error", ""));
+            inputElement.style.borderColor = "";
+        }
+
+
+      function validateInput(elementId) {
+    resetValidationStyles();
+
+    var inputValue = document.getElementById(elementId).value.trim(); // Trim whitespace
+
+    if (inputValue === "") {
+        clearValidationError(elementId + "Error");
+        return; // No need to validate further if the input is empty
+    }
+
+    if (elementId === "usn") {
+        if (!/^[a-zA-Z0-9]+$/.test(inputValue)) {
+            showValidationError("usnError", "Invalid USN. Only alphanumeric characters are allowed.");
+        } else {
+            clearValidationError("usnError");
+        }
+    } else if (elementId === "name") {
+        if (!/^[a-zA-Z]+$/.test(inputValue)) {
+            showValidationError("nameError", "Invalid Name. Only letters are allowed.");
+        } else {
+            clearValidationError("nameError");
+        }
+    }
+}
+
+
+    </script>
+
+</body>
+
+</html>

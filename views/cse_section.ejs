@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <title>CSE Students</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #d8e9d0;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #6a5fd0;
+            padding-bottom: 50px;
+        }
+        
+        .h1-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .h1 {
+            font-family: 'Serif', Georgia;
+            letter-spacing: 2px;
+            font-size: 40px;
+            color: #4220ca;
+            margin: 0;
+        }
+        
+        header img {
+            width: 90px;
+            height: auto;
+            border-radius: 40px;
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        header img:hover {
+            transform: scale(1.3);
+        }
+        
+        .top {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin-top: 80px;
+            margin-bottom: 10px;
+            padding-bottom: 30px;
+        }
+        
+        .first {
+            flex: 0.3;
+            margin: 0 60px;
+            padding-left: 4px;
+            font-family: 'Black Ops One', system-ui;
+            text-align: center;
+        }
+        
+        .button-top {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .button-top:hover {
+            transform: scale(1.1);
+        }
+        
+        header img:hover {
+            transform: scale(1.3);
+        }
+        
+        .button-top {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: linear-gradient(to right, #3498db, #e74c3c);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="https://rvce.edu.in">
+            <img src="R.V._College_of_Engineering_logo.png" alt="RVCE">
+        </a>
+        <h1 class="h1">CSE Students</h1>
+        <div>
+            <!-- Add login details or any other content here -->
+            <p>Professor</p>
+            <p>Department</p>
+        </div>
+    </header>
+    </table>
+    </section>
+    <div class="top">
+        <div class="first" id="csea">
+            <button  onclick="select()" class="btn btn-outline-success button-top" >
+                    <h2>Computer Science-A (CSE)</h2>
+                    <p>Click to view the list of students and their USN.</p>
+                    
+                </button>
+        </div>
+        <div class="first" id="cseb">
+            <button onclick="select()" class="btn btn-outline-dark button-top">
+                    <h2>Computer Science-B (CSE)</h2>
+                    <p>Click to view the list of students and their USN.</p>
+                </button>
+            </form>
+        </div>
+        <div class="first" id="csec">
+            <button  onclick="select()" class="btn btn-outline-danger button-top">
+                <form action="/add" method="post">
+                   
+                        <h2>Computer Science-C (CSE)</h2>
+                        <p>Click to view the list of students and their USN.</p>
+                    </button>
+        </div>
+    </div>
+    <script>
+        function select() {
+            const username = '<%= username %>'
+            const subject = '<%= a.subject %>'
+            if (subject === 'admin') {
+                window.location.href = '/cse';
+            } else if (subject === 'MATHS' || subject === 'ADLDCO' || subject === 'OS' || subject === 'AMC') {
+                window.location.href = '/teacher';
+            }
+            else if(subject==='cse'){
+                window.location.href = '/coordinator-teacher';
+            }
+        }
+
+        function viewDetails(usn) {
+            // Redirect to "stud1.html" with the student's USN as a parameter
+            window.location.href = 'stud1.html?usn=' + usn;
+        }
+
+        function editDetails(usn) {
+            alert('Edit details for student with USN ' + usn);
+            // Implement your logic for editing details
+        }
+
+        function viewAllDetails() {
+            alert('View details for all students');
+            // Implement your logic for viewing all details
+        }
+
+
+        // Prompt the user for their username
+        const username = '<%= username %>'
+        const subject = '<%= a.subject %>'
+
+        console.log(username);
+
+        // Check if the entered username matches the authenticated user
+        if (subject === "admin"||subject==='cse') {
+            document.style.display = 'flex';
+
+        } else if (username === "kirankumardl@rvce.edu.in") {
+            document.getElementById('csea').style.display = 'flex';
+            document.getElementById('cseb').style.display = 'none';
+            document.getElementById('csec').style.display = 'none';
+
+        } else if (username === "sumannp@rvce.edu.in") {
+            document.getElementById('csea').style.display = 'flex';
+            document.getElementById('cseb').style.display = 'none';
+            document.getElementById('csec').style.display = 'flex';
+
+        } else if (username === "sumab_rao@rvce.edu.in") {
+            document.getElementById('csea').style.display = 'flex';
+            document.getElementById('cseb').style.display = 'flex';
+            document.getElementById('csec').style.display = 'none';
+
+        } else if (username === "prapullasb@rvce.edu.in") {
+            document.getElementById('csea').style.display = 'none';
+            document.getElementById('cseb').style.display = 'flex';
+            document.getElementById('csec').style.display = 'none';
+
+        } else if (username === "mohana@rvce.edu.in") {
+            document.getElementById('csea').style.display = 'flex';
+            document.getElementById('cseb').style.display = 'none';
+            document.getElementById('csec').style.display = 'none';
+
+        } else if (username === "jyothis@rvce.edu.in") {
+            document.getElementById('csea').style.display = 'flex';
+            document.getElementById('cseb').style.display = 'none';
+            document.getElementById('csec').style.display = 'none';
+
+        } else if (username === "apoorvaukc@rvce.edu.in") {
+            document.getElementById('csea').style.display = 'none';
+            document.getElementById('cseb').style.display = 'flex';
+            document.getElementById('csec').style.display = 'none';
+
+        } else {
+            // Display a message or redirect to an unauthorized page
+            alert('Sorry, you are not authorized to view this content.');
+        }
+        document.getElementById('manipulateExcel').addEventListener('click', async() => {
+            // Implement your logic for manipulating the Excel sheet here
+            alert('Button clicked for manipulating Excel.');
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+
+</body>

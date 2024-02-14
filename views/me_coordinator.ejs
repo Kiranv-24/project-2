@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ME COORDINATOR</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav {
+            background-color: #555;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+            height: 30vh; /* Set the height of the container to the full viewport height */
+            margin: 10px;
+            padding: 20px;
+        }
+
+        section {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        section:hover {
+            transform: scale(1.05);
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .me {
+            background-color: #66c2ff;
+            text-align: center; /* Center-align content within the section */
+            margin: auto; /* Horizontally center the section */
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Additional styles specific to this page */
+        h1 {
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        footer {
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+            }
+
+            nav a {
+                margin: 5px 0;
+            }
+
+            .grid-container {
+                padding: 10px;
+            }
+
+            section {
+                margin: 10px;
+            }
+
+            footer {
+                position: static;
+            }
+        }
+
+	@keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        header {
+            animation: fadeIn 1s ease-in-out;
+            /* Add the fade-in animation to the header */
+        }
+
+        nav {
+            animation: slideIn 1s ease-in-out;
+            /* Add the slide-in animation to the navigation bar */
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>ME COORDINATOR PORTAL</h1>
+	<p>Welcome to the ME Coordinator Portal!</p>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="grid-container">
+     <form action="/addme" method="post">
+        <section class="me">
+            <center>
+                <a href="/me">
+                    <h2>ME Students</h2>
+                    <p>Click to view the list of students and their USN.</p>
+                </a>
+            </center>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 ME Coordinator Portal</p>
+       
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <title>Add Student</title>
+    <style>
+ body {
+            background-color:#FFEAA7;
+            color: #fff; 
+        }
+
+        header {
+            background-color: rgb(131, 140, 190);
+            color: #fff;
+            text-align: center;
+            font-family: 'Changa', sans-serif;
+            padding-top: 30px;
+            padding-bottom: 20px;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .top{
+            display: flex;
+            flex-direction: column;
+        }
+.a{
+    color: black;
+    text-align: center;
+}
+.b{
+    margin-top: 20px;
+    margin-left: 500px;
+    margin-bottom: 50px;
+    font-family: 'Changa', sans-serif;
+    font-size: 20px;
+    color: black;
+}
+.c{
+margin-bottom: 30PX;
+font-family: 'Changa', sans-serif;
+}
+input {
+        font-size: 25px; 
+        padding: 8px;
+        width: 400px;  
+        height: 50px;  
+        
+    }
+.c label{
+    margin-right: 14px;
+}
+.e{
+    margin-top: 20px;
+}
+.e label{
+    margin-right: 6px;
+}
+.add-button{
+    margin-top: 20px;
+    align-items: center;
+    width: 150px;
+    transition: background-color 0.3s ease;
+}
+.button-container{
+    margin-top: 30px;
+    border-radius: 30px;
+}
+.view-button{
+    transition: background-color 0.3s ease;
+}
+.add-button:hover{
+    transform: scale(1.2);
+}
+.view-button:hover {
+    transform: scale(1.2);
+        }
+.error-message{
+    color:red;
+}
+</style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Add Student</h1>
+    </header>
+
+   <section class="top">
+	<div class="form-title">
+        <h1 class="a">Add New Student</h1>
+        </div>
+        <div class="b">
+            <form class="add-form" id="addStudentForm">
+                <div class="c">
+                    <label for="usn" >USN:</label>
+                    <input type="text" id="usn" name="usn" required oninput="validateInput('usn')">
+                    <div id="usnError" class="error-message"></div>
+                </div>
+                <div class="d">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required oninput="validateInput('name')">
+                    <div id="nameError" class="error-message"></div>
+                </div>
+                <div class="e">
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" name="email" required oninput="validateInput('email')">
+                    <div id="emailError" class="error-message"></div>
+                </div>
+                <div class="add-button">
+                    <button type="button" onclick="addStudent()" class="btn btn-outline-primary ">Add Student</button>
+                </div>
+            </form>
+        <div class="button-container">
+            <button class="view-button btn btn-outline-danger" onclick="goBack()" >Go Back</button>
+        </div>
+        </div>
+    </section>
+    <div id="successModal" class="modal">
+        <p>Student added successfully!</p>
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <script>
+        var previousPage = '';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            previousPage = window.location.href;
+        });
+
+        async function addStudent() {
+    var form = document.getElementById("addStudentForm");
+    var usn = form.elements["usn"].value;
+    var name = form.elements["name"].value;
+    var email = form.elements["email"].value; // New line for email field
+  var trimmedName = name.trim();
+    // Validate USN format (alphanumeric)
+    if (!/^[a-zA-Z0-9]+$/.test(usn)) {
+        showValidationError("usnError", "Invalid USN. Only alphanumeric characters are allowed.");
+        return;
+    }
+
+  // Validate Name format (letters and spaces)
+if (!/^[a-zA-Z ]+$/.test(name.trim())) {
+    showValidationError("nameError", "Invalid Name. Only letters and spaces are allowed.");
+    return;
+}
+
+
+    // Validate Email format (simple email validation)
+    if (!isValidEmail(email)) {
+        showValidationError("emailError", "Invalid Email address.");
+        return;
+    }
+
+    try {
+        // Send the data to the server using fetch API
+        await fetch('/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ USN: usn, Name: name, Email: email }), // Include Email in the request body
+        });
+
+        // Show success message in a modal
+        showSuccessMessage();
+    } catch (error) {
+        console.error('Error adding data:', error);
+        // Handle error as needed
+    }
+}
+
+function isValidEmail(email) {
+    // Simple email validation using regular expression
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+        function showSuccessMessage() {
+            // Clear the form
+            var form = document.getElementById("addStudentForm");
+            form.reset();
+
+            // Show modal
+            var modal = document.getElementById("successModal");
+            var overlay = document.getElementById("overlay");
+            modal.style.display = "block";
+            overlay.style.display = "block";
+
+            // Hide modal after 3 seconds (adjust the timeout as needed)
+            setTimeout(function () {
+                modal.style.display = "none";
+                overlay.style.display = "none";
+            }, 3000);
+        }
+
+        function showValidationError(elementId, message) {
+            // Show validation error message in red
+            var errorElement = document.getElementById(elementId);
+            errorElement.innerText = message;
+
+            // Make the input box red
+            var inputElement = document.getElementById(elementId.replace("Error", ""));
+            inputElement.style.borderColor = "red";
+        }
+
+        function resetValidationStyles() {
+            // Reset validation error messages and input box styles
+            var usnErrorElement = document.getElementById("usnError");
+            var nameErrorElement = document.getElementById("nameError");
+
+            usnErrorElement.innerText = "";
+            nameErrorElement.innerText = "";
+
+            var usnInput = document.getElementById("usn");
+            var nameInput = document.getElementById("name");
+
+            usnInput.style.borderColor = "";
+            nameInput.style.borderColor = "";
+        }
+
+        function goBack() {
+            history.back();
+        }
+	function clearValidationError(elementId) {
+            var errorElement = document.getElementById(elementId);
+            errorElement.innerText = "";
+
+            var inputElement = document.getElementById(elementId.replace("Error", ""));
+            inputElement.style.borderColor = "";
+        }
+
+
+      function validateInput(elementId) {
+    resetValidationStyles();
+
+    var inputValue = document.getElementById(elementId).value.trim(); // Trim whitespace
+
+    if (inputValue === "") {
+        clearValidationError(elementId + "Error");
+        return; // No need to validate further if the input is empty
+    }
+
+    if (elementId === "usn") {
+        if (!/^[a-zA-Z0-9]+$/.test(inputValue)) {
+            showValidationError("usnError", "Invalid USN. Only alphanumeric characters are allowed.");
+        } else {
+            clearValidationError("usnError");
+        }
+    } else if (elementId === "name") {
+        if (!/^[a-zA-Z]+$/.test(inputValue)) {
+            showValidationError("nameError", "Invalid Name. Only letters are allowed.");
+        } else {
+            clearValidationError("nameError");
+        }
+    }
+}
+
+
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</body>
+
+</html>

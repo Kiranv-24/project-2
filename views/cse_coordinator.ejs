@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Song+Myung&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@1,200&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <title>CSE COORDINATOR</title>
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color:#FBF9F1 ;
+        }
+
+        header {
+            background-color: #E1F0DA;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: 2PX;
+            word-spacing: 4PX;
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav {
+            margin-bottom: 20px;
+            background-color:#EAECCC;
+            padding: 10px;
+            text-align: center;
+            word-spacing: 50px;
+        }
+
+
+
+        .grid-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+            padding: 20px;
+        }
+  
+
+
+        a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .cse {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+
+        h1 {
+            text-align: center;
+        }
+        h2{
+            color: #000000;
+            letter-spacing: 2px;
+            word-spacing: 4px   ;
+            transition: transform 0.2s ease-in-out; 
+        }
+        h2:hover {
+            color:aliceblue;
+        }
+        p {
+            letter-spacing: 2px;
+            font-size: 16px;
+            transition: transform 0.2s ease-in-out; 
+        }
+        p:hover {
+            color:rgb(0, 0, 0);
+        }
+        .btn{
+            font-family: 'Song Myung', serif;
+            margin-top: 10px;
+            height: 80px;
+            border-radius: 10px;
+            transition: transform 0.2s ease-in-out; 
+            width: 550px;
+        }
+
+        .btn:hover {
+            
+            transform: scale(1.1);
+        }
+        footer {
+            font-family: 'Exo', sans-serif;
+            border-top: solid;
+            border-color: #000000;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+            }
+
+            nav a {
+                margin: 5px 0;
+            }
+
+            .grid-container {
+                padding: 10px;
+            }
+
+           
+
+            footer {
+                position: static;
+            }
+        }
+
+	@keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        header {
+            animation: fadeIn 1s ease-in-out;
+            /* Add the fade-in animation to the header */
+        }
+
+        nav {
+            animation: slideIn 1s ease-in-out;
+            /* Add the slide-in animation to the navigation bar */
+        }
+    
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>CSE COORDINATOR PORTAL</h1>
+        <p>Welcome to the CSE Coordinator Portal!</p>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="grid-container">
+        
+         <section class="cse">
+            <button class="btn btn-outline-primary">
+                <a href="/csesec">
+                    <h2>CSE Students</h2>
+                    <p>Click to view the list of CSE sections .</p>
+                </a>
+            </button>
+        </section><form>
+
+
+        <form action="/addcd" method="post">
+        <section class="cse">
+            <button class="btn btn-outline-info">
+                <a href="/cscd">
+                    <h2>CSE-DS Students</h2>
+                    <p>Click to view the list of CSE-DS students and their USN.</p>
+                </a>
+            </button>
+        </section>
+
+        <section class="/addcy">
+            <button class="btn btn-outline-warning">
+                <a href="cscy">
+                    <h2>CSE-CY Students</h2>
+                    <p>Click to view the list of CSE-CY students and their USN.</p>
+                </a>
+            </button>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 CSE Coordinator Portal</p>
+    </footer>
+
+</body>
+
+</html>

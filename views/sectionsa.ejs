@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Changa:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Changa&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Sections</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            /* Light blue background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            margin: 0;
+            /* Reset margin */
+            position: relative;
+            display: inline-block;
+            font-family: 'Dancing Script', cursive;
+            /* Use Dancing Script font */
+            font-size: 40px;
+            /* Increased font size */
+            font-weight: 1000;
+            /* Bolder font weight */
+            color: #150772;
+            margin-left: 125px;
+            /* Dark blue color */
+        }
+        
+        h1::before,
+        h1::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 8px;
+            background-color: #ff8c00;
+            /* Orange color */
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 5px;
+        }
+        
+        h1::before {
+            left: -50px;
+        }
+        
+        h1::after {
+            right: -50px;
+        }
+        
+        header {
+            background-color: #d8e9d0;
+            border-bottom: 5px solid #6a5fd0;
+            /* Dark blue border for header */
+            color: #090909;
+            text-align: center;
+            padding: 40px;
+            /* Increased padding */
+            font-family: 'Roboto', sans-serif;
+            /* Changed font to Roboto */
+            font-size: 32px;
+            /* Increased font size */
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 48px;
+            display: flex;
+            flex-direction: row;
+            /* Changed direction to row */
+            justify-content: space-between;
+            /* Space between items */
+            align-items: center;
+            height: 100%;
+        }
+        
+        header img {
+            width: 80px;
+            /* Increased image size */
+            border-radius: 50%;
+            margin-top: -9px;
+            /* Adjusted margin to move the image a bit higher */
+            margin-bottom: 7px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            font-weight: bold;
+            /* Added boldness to the image */
+        }
+        
+        header img:hover {
+            transform: scale(1.2);
+        }
+        
+        .logout-button {
+            background-color: #300dac;
+            /* Orange color */
+            color: #ffffff;
+            height: auto;
+            /* White text color */
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .logout-button:hover {
+            background-color: #910a0a;
+            transform: scale(1.2);
+            /* Darker orange on hover */
+        }
+        
+        img,
+        svg {
+            vertical-align: middle;
+            margin-top: 0px;
+        }
+        
+       .top,
+.bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 -10px -10px 10px; /* Reduce the overall margin */
+}
+
+.top-row,
+.bottom-row {
+    margin: 10px; /* Adjust the margin between buttons */
+}
+
+.top-row button,
+.bottom-row button {
+    width: 290px;
+    height: 180px;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 12px; /* Adjust the margin between buttons */
+    padding: 20px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+        
+        .top-row button:hover,
+        .bottom-row button:hover {
+            transform: scale(1.1);
+        }
+        
+        .top-row button,
+        .bottom-row button {
+            font-family: 'Black Ops One', sans-serif;
+        }
+        
+        .welcome-message {
+            font-size: 24px;
+            margin-top: 20px;
+            color: #555;
+            /* Darker gray color */
+        }
+        .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 -10px -10px 10px; /* Reduce the overall margin */
+    background-color: #f5f5f5; /* Light gray background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    border-radius: 15px; /* Border radius for the container */
+    padding: 20px; /* Padding for the container */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 78%; /* Adjusted width to take up 68% of the page width */
+    box-sizing: border-box;
+    margin: 0 auto; /* Center the container and remove margins on both right and left */
+    background-color: #f5f5f5; /* Light gray background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding: 20px; 
+    padding-left:2px/* Adjusted padding - 20px on all sides */
+}
+
+
+.button-container button:hover {
+    transform: scale(1.1);
+}
+
+.button-container button {
+    font-family: 'Black Ops One', sans-serif;
+}
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="https://rvce.edu.in">
+            <img src="R.V._College_of_Engineering_logo.png" alt="RVCE" class="logo">
+        </a>
+        <h1>Welcome to RVCE Student Management Portal</h1>
+        <!-- Added a container div to wrap both decorative elements -->
+        <div class="decorative-elements">
+            <h1::before></h1::before>
+            <h1::after></h1::after>
+        </div>
+        <button class="logout-button" onclick="/login">Logout</button>
+        <!-- <p class="welcome-message">Empowering Students for Success</p> -->
+    </header>
+
+
+
+<div class="button-container">
+    <div class="top">
+        <div class="top-row" id="cseSection">
+            <a href="/csesec">
+                <button class="btn btn-outline-primary">
+                    <h3>Computer Science (CSE)</h3>
+                    <p>Click to view the list of students and their USN.</p>
+                </button>
+            </a>
+        </div>
+        <div class="top-row" id="cscdSection">
+            <a href="/cscd">
+                <button class="btn btn-outline-secondary">
+                    <h3>Computer Science Data Science (DS)</h3>
+                    <p>Click to view the list of students and their USN.</p>
+                </button>
+            </a>
+        </div>
+        <div class="top-row" id="cySection">
+            <a href="/cscy">
+                <button class="btn btn-outline-success">
+                    <h4>Computer Science Cybersecurity (CY)</h4>
+                    <p>Click to view the list of students and their USN.</p>
+                </button>
+            </a>
+        </div>
+    </div>
+  <div class="bottom">
+    <div class="bottom-row" id="ecsection" >
+        <button class="btn btn-outline-warning" onclick="select('<%=a.subject%>')">
+            <h3>Electronics and Communication (EC)</h3>
+            <p>Click to view the list of students and their USN.</p>
+        </button>
+    </div>
+
+
+        <div class="bottom-row" id="mesection">
+            <a href="/me">
+                <button class="btn btn-outline-info">
+                    <h3>Mechanical Engineering (MECH)</h3>
+                    <p>Click to view the list of students and their USN.</p>
+                </button>
+            </a>
+        </div>
+         <div class="bottom-row" id="iseSection">
+            <a href="/ise">
+                <button class="btn btn-outline-danger">
+                    <h3>Information Systems (IS)</h3>
+                    <p>Click to view the list of students and their USN.</p>
+                </button>
+            </a>
+        </div>
+    </div></div>
+
+    <script>
+        // Simulating user authentication (replace this with proper server-side authentication)
+
+
+
+        // Prompt the user for their username
+        const username = '<%=username%>'
+        const subject = '<%=a.subject%>'
+         console.log("aaa",username)
+
+        // Check if the entered username matches the authenticated user
+        if ((subject === 'admin')) {
+            document.style.display = 'flex';
+        } else if (username === "kirankumardl@rvce.edu.in") {
+            // Display the HTML for CSE and CY
+            document.getElementById('cseSection').style.display = 'flex';
+            document.getElementById('cscdSection').style.display = 'flex';
+            document.getElementById('cySection').style.display = 'none';
+            document.getElementById('iseSection').style.display = 'none';
+            document.getElementById('mesection').style.display = 'none';
+            document.getElementById('ecsection').style.display = 'none';
+        } else if (username === "sumannp@rvce.edu.in") {
+            // Display the HTML for CSE and CY
+            document.getElementById('cseSection').style.display = 'flex';
+            document.getElementById('cscdSection').style.display = 'none';
+            document.getElementById('cySection').style.display = 'flex';
+            document.getElementById('iseSection').style.display = 'none';
+            document.getElementById('cvsection').style.display = 'none';
+            document.getElementById('mesection').style.display = 'none';
+            document.getElementById('assection').style.display = 'none';
+            document.getElementById('ecsection').style.display = 'none';
+        } else if (username === "sumab_rao@rvce.edu.in") {
+            // Display the HTML for CSE and CY
+            document.getElementById('cseSection').style.display = 'flex';
+            document.getElementById('cscdSection').style.display = 'none';
+            document.getElementById('cySection').style.display = 'flex';
+            document.getElementById('iseSection').style.display = 'none';
+            document.getElementById('cvsection').style.display = 'none';
+            document.getElementById('mesection').style.display = 'none';
+            document.getElementById('assection').style.display = 'none';
+            document.getElementById('ecsection').style.display = 'none';
+        } else if (username === "abhisekmidya@rvce.edu.in") {
+            // Display the HTML for CSE and CY
+            document.getElementById('cseSection').style.display = 'none';
+            document.getElementById('cscdSection').style.display = 'flex';
+            document.getElementById('cySection').style.display = 'flex';
+            document.getElementById('iseSection').style.display = 'none';
+            document.getElementById('cvsection').style.display = 'none';
+            document.getElementById('mesection').style.display = 'none';
+            document.getElementById('assection').style.display = 'none';
+            document.getElementById('ecsection').style.display = 'none';
+        } else if (username === "prapullasb@rvce.edu.in") {
+            // Display the HTML for CSE and CY
+            document.getElementById('cseSection').style.display = 'flex';
+            document.getElementById('cscdSection').style.display = 'flex';
+            document.getElementById('cySection').style.display = 'none';
+            document.getElementById('iseSection').style.display = 'none';
+            document.getElementById('cvsection').style.display = 'none';
+            document.getElementById('mesection').style.display = 'none';
+            document.getElementById('assection').style.display = 'none';
+            document.getElementById('ecsection').style.display = 'none';
+        } else if (username === "mohana@rvce.edu.in") {
+            // Display the HTML for CSE and CY
+            document.getElementById('cseSection').style.display = 'flex';
+            document.getElementById('cscdSection').style.display = 'none';
+            document.getElementById('cySection').style.display = 'flex';
+            document.getElementById('iseSection').style.display = 'none';
+            document.getElementById('cvsection').style.display = 'none';
+            document.getElementById('mesection').style.display = 'none';
+            document.getElementById('assection').style.display = 'none';
+            document.getElementById('ecsection').style.display = 'none';
+        } else if (username === "jyothis@rvce.edu.in") {
+            // Display the HTML for CSE and CY
+            document.getElementById('cseSection').style.display = 'flex';
+            document.getElementById('cscdSection').style.display = 'flex';
+            document.getElementById('cySection').style.display = 'flex';
+            document.getElementById('iseSection').style.display = 'none';
+            document.getElementById('cvsection').style.display = 'none';
+            document.getElementById('mesection').style.display = 'none';
+            document.getElementById('assection').style.display = 'none';
+            document.getElementById('ecsection').style.display = 'none';
+        } else if (username === "apoorvaukc@rvce.edu.in") {
+            // Display the HTML for CSE and CY
+            document.getElementById('cseSection').style.display = 'flex';
+            document.getElementById('cscdSection').style.display = 'none';
+            document.getElementById('cySection').style.display = 'flex';
+            document.getElementById('iseSection').style.display = 'none';
+            document.getElementById('cvsection').style.display = 'none';
+            document.getElementById('mesection').style.display = 'none';
+            document.getElementById('assection').style.display = 'none';
+            document.getElementById('ecsection').style.display = 'none';
+        } else if (username === "avikbanerjee@rvce.edu.in") {
+            // Display the HTML for CSE and CY
+            document.getElementById('cseSection').style.display = 'none';
+            document.getElementById('cscdSection').style.display = 'none';
+            document.getElementById('cySection').style.display = 'none';
+            document.getElementById('iseSection').style.display = 'none';
+            document.getElementById('mesection').style.display = 'none';
+            document.getElementById('ecsection').style.display = 'flex';
+        }
+        else {
+            // Display a message or redirect to an unauthorized page
+            alert('Sorry, you are not authorized to view this content.');
+        }
+        function select(subject) {
+    if (subject === 'AMC') {
+        window.location.href = '/teacher';
+    } else if (subject === 'ece') {
+        window.location.href = '/ec';
+    }
+}
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+
+</html>

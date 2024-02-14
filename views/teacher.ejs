@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+   <style>
+    body {
+        font-family: 'Quicksand', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #FAEED1;
+        font-weight: bold;
+        transition: background-color 0.5s ease;
+    }
+
+    header {
+        font-family: 'Quicksand', sans-serif;
+        letter-spacing: 2px;
+        word-spacing: 9px;
+        color: #2c3e50;
+        text-align: center;
+        padding: 10px 0; /* Reduced padding */
+        transition: background-color 0.5s ease;
+        border-bottom: 2px solid #3498db; /* Changed border color */
+    }
+
+    header img {
+        width: 60px;
+        height: auto;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease;
+    }
+
+    header img:hover {
+        transform: scale(1.2);
+    }
+
+    .logout-button {
+        padding-top: 5px;
+        border-top: transparent;
+        border-bottom: transparent;
+        border-left: transparent;
+        border-right: transparent;
+        width: 200px;
+        background-color: white;
+        font-family: 'Quicksand', sans-serif;
+    }
+
+    .dropdown-menu {
+        align-items: center;
+    }
+
+    .btn-group {
+        margin-left: 85%;
+        
+    }
+
+    .btn {
+        color: black;
+        font-size: larger;
+        font-family: 'Quicksand', sans-serif;
+    }
+
+    .tp {
+        font-family: 'Quicksand', sans-serif;
+        font-size: x-large;
+        letter-spacing: 3px;
+    }
+
+    h1 {
+        font-weight: bold;
+        font-size: 28px;
+        margin: 0;
+        color: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        padding-top: 10px;
+        color: #000000;
+    }
+
+    .search-container {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center the content horizontally */
+    }
+
+    .search-bar {
+        font-family: 'Quicksand', sans-serif;
+        padding: 8px;
+        margin: 7px;
+        border: none;
+        border-radius: 5px;
+        width: 200px;
+        transition: width 0.3s ease;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .search-bar:focus {
+        width: 250px;
+    }
+
+    table {
+        width: 80%;
+        margin: auto;
+        border-collapse: collapse;
+        margin-top: 15px;
+        border: 1px solid #000000;
+        color: rgb(255, 255, 255);
+        overflow: hidden;
+        letter-spacing: 2px;
+        transition: border-color 0.5s ease;
+        position: relative;
+        z-index: 1;
+        font-family: 'Quicksand', sans-serif;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        
+    }
+
+    th, td {
+        border: 1px solid #444;
+        padding: 8px;
+        text-align: left;
+        transition: transform 0.3s ease;
+        height: 30px;
+    }
+
+    th {
+        background-color: #3498db;
+        color: #fff;
+    }
+
+    tr {
+        color: #000000;
+    }
+
+    .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .add-student-form {
+        display: none;
+        margin-top: 20px;
+    }
+
+    .btn-view,
+    .btn-edit {
+        color: black;
+        background-color: #27ae60;
+        border: none;
+        padding: 8px 12px;
+        margin: 2px 5px;
+        border-radius: 5px;
+        font-family: 'Quicksand', sans-serif;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-view:hover,
+    .btn-edit:hover {
+        background-color: #219653;
+    }
+.btn btn-outline-success{
+    margin-bottom:2px;
+}
+
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    body.rgb-theme {
+        animation: changeColor 20s infinite;
+    }
+
+    @media screen and (max-width: 600px) {
+        .header-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .search-container {
+            margin-top: 20px;
+            margin-left: 0;
+        }
+
+        .search-bar {
+            width: 100%;
+        }
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        display: none;
+        animation: fadeInOverlay 0.5s ease;
+    }
+
+    @keyframes fadeInOverlay {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #2c3e50;
+        padding: 30px;
+       
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+    }
+
+    .modal-content {
+        max-width: 500px;
+        margin: 0 auto;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .form-input label {
+        color: #fff;
+    }
+
+    .form-input input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 2px solid #fff;
+        border-radius: 8px;
+        background-color: #34495e;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .form-input input:focus {
+        outline: none;
+        border: 2px solid #fff;
+    }
+            #manipulateExcel {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #007bff; /* Bootstrap primary color */
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#manipulateExcel:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+ .edit-marks-button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 0.5rem 1rem;
+        border: none;
+        background-color: #fff; /* Adjust the background color as needed */
+        color: #333; /* Adjust the text color as needed */
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .edit-marks-button:hover {
+        background-color: #f0f0f0; /* Adjust the hover background color as needed */
+    }
+</style>
+
+</head>
+
+<body>
+    <header>
+    <div class="logo-container">
+        <img src="R.V._College_of_Engineering_logo.png" alt="RVCE">
+        <h1 class="header-title">TEACHER'S PORTAL</h1>
+    </div>
+    <div class="header-buttons">
+        <div class="btn-group">
+            <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <button class="logout-button" onclick="logout()">Logout</button>
+                <!-- Add another dropdown item for editing overall marks -->
+                <button class="edit-marks-button" onclick="editOverallMarks('Quiz 1')">Quiz 1</button>
+                <button class="edit-marks-button" onclick="editOverallMarks('Quiz 2')">Quiz 2</button>
+                <button class="edit-marks-button" onclick="editOverallMarks('Test 1')">Test 1</button>
+                <button class="edit-marks-button" onclick="editOverallMarks('Test 2')">Test 2</button>
+                <button class="edit-marks-button" onclick="editOverallMarks('EL 1')"  >EL 1</button>
+
+            </div>
+        </div>
+    </div>
+</header>
+
+
+    <section>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search by USN or Name" class="search-bar">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 20%;">USN</th>
+                    <th style="width: 30%;">Name</th>
+                    <th style="width: 30%;">Email</th>
+                    <th style="width: 20%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% datas.forEach(data => { %>
+                <% if (data.USN && data.Name && username) { %>
+                <tr class="search-result">
+                    <td><%= data.USN %></td>
+                    <td><%= data.Name %></td>
+                    <td><%= data.Email %></td>
+                    <td>
+                        <button class="btn btn-outline-success"
+                            onclick="viewDetails('<%= data.USN %>')">View Marks</button>
+                        <button class="btn btn-outline-danger" onclick="showEditForm('<%= data.USN %>')">Edit Marks
+                        </button>
+                    </td>
+                </tr>
+                <% } %>
+                <% }); %>
+            </tbody>
+        </table>
+
+        <div class="modal" id="editModal">
+            <div class="modal-content">
+                <h2>Edit Student Details</h2>
+                <form id="editStudentForm" onsubmit="editStudent(); return false;">
+                    <input type="hidden" id="editUsn" value="">
+                    <div class="form-input">
+                        <label for="editName">Name:</label>
+                        <input type="text" id="editName" required>
+                    </div>
+                    <div class="form-input">
+                        <label for="editEmail">Email:</label>
+                        <input type="text" id="editEmail" required>
+                    </div>
+                    <button type="submit">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script>
+function editOverallMarks(quizType) {
+    // Redirect to the edit route with the quizType as a query parameter
+    window.location.href = '/edit?quiz=' + encodeURIComponent(quizType);
+}
+
+
+
+        function showEditForm(USN) {
+            const username = '<%= username %>'
+            const subject='<%= userDetail.subject %>'
+            if(username.toLowerCase().includes('admin')){
+            var rows = document.querySelectorAll('tbody tr');
+            var rowToEdit = Array.from(rows).find(row => row.querySelector('td:first-child').textContent.trim() === USN);
+
+            if (rowToEdit) {
+                var Name = rowToEdit.querySelector('td:nth-child(2)').textContent.trim();
+                var Email = rowToEdit.querySelector('td:nth-child(3)').textContent.trim();
+
+                document.getElementById('editUsn').value = USN;
+                document.getElementById('editName').value = Name;
+                document.getElementById('editEmail').value = Email;
+
+                // Show the modal
+                var modal = document.getElementById('editModal');
+                modal.style.display = 'block';
+            } else {
+                console.error('Row not found for USN:', USN);
+            }}
+            else if(subject==='MATHS'||subject==='AMC'){
+                     window.location.href = '/marksedit?USN=' + USN;
+            }
+            else if(subject==='DSA'){
+                     window.location.href = '/marksedit?USN=' + USN;
+            }
+            
+            else {
+                console.error('Row not found for USN:', USN);}
+        }
+
+        function hideEditForm() {
+            // Hide the modal
+            var modal = document.getElementById('editModal');
+            modal.style.display = 'none';
+        }
+
+        function viewDetails(USN) {
+         const username = '<%= username %>'
+         const subject='<%= userDetail.subject %>'
+         console.log('fetch',username);
+
+ 
+   if(subject!='admin'){
+        window.location.href = '/stud2?USN=' + USN;
+    }
+   
+    
+    else{
+         window.location.href = '/login';
+    }}
+
+
+        async function editStudent() {
+    var usnInput = document.getElementById('editUsn');
+    var nameInput = document.getElementById('editName');
+    var emailInput = document.getElementById('editEmail');
+
+    var USN = usnInput.value.trim();
+    var Name = nameInput.value.trim();
+    var Email = emailInput.value.trim();
+
+    if (USN && Name && Email) {
+        try {
+            const response = await fetch('/updateStudent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ USN, Name, Email }),
+            });
+
+            if (response.ok) {
+                // Update the row on the webpage
+                var row = document.querySelector(`tbody tr td:first-child:contains('${USN}')`).closest('tr');
+                row.querySelector('td:nth-child(2)').textContent = Name;
+                row.querySelector('td:nth-child(3)').textContent = Email;
+
+                // Display a success message
+                alert('Edit successful! ✔️');
+
+                // Hide the edit form modal
+                hideEditForm();
+            } else {
+                const errorData = await response.json();
+                console.error('Error:', errorData.message);
+                
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Edit successful! ✔️');
+        }
+    } else {
+        alert('Please enter Name and Email. ❌');
+    }
+}
+  function logout(){
+         window.location.href = '/login';
+       }
+        function viewAllDetails() {
+            alert('View details for all students');
+            // Implement your logic for viewing all details
+        }
+
+        function redirectToAddStudent() {
+            
+            window.location.href = '/add';
+        }
+
+        function addNewStudent() {
+            var usnInput = document.getElementById('newUsn');
+            var nameInput = document.getElementById('newName');
+            var emailInput = document.getElementById('newEmail');
+
+            var usn = usnInput.value.trim();
+            var name = nameInput.value.trim();
+            var email = emailInput.value.trim();
+
+            if (usn && name && email) {
+                // You can add logic here to save the new student data to the database
+                alert('Adding new student: ' + usn + ' - ' + name + ' - ' + email);
+
+                // Clear the form inputs
+                usnInput.value = '';
+                nameInput.value = '';
+                emailInput.value = '';
+
+                // Hide the form after adding the student
+                var form = document.querySelector('.add-student-form');
+                form.style.display = 'none';
+            } else {
+                alert('Please enter USN, Name, and Email.');
+            }
+        }
+
+         var searchInput = document.getElementById('searchInput');
+
+        // Adding an event listener to trigger search as the user types
+        searchInput.addEventListener('input', function () {
+            searchDetails();
+        });
+
+        function searchDetails() {
+            var searchValue = searchInput.value.trim().toLowerCase();
+            var rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(function (row) {
+                var usn = row.querySelector('td:nth-child(1)').textContent.trim().toLowerCase();
+                var name = row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+                var email = row.querySelector('td:nth-child(3)').textContent.trim().toLowerCase();
+
+                if (usn.includes(searchValue) || name.includes(searchValue) || email.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            var image = document.querySelector('header img.pop-out-image');
+
+            image.addEventListener('mouseover', function () {
+                image.style.transform = 'scale(1.2)';
+            });
+
+            image.addEventListener('mouseout', function () {
+                image.style.transform = 'scale(1)';
+            });
+        });
+   
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

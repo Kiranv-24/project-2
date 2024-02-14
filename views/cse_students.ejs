@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap" rel="stylesheet">
+    <title>CSE Students</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #BFCFE7;
+        
+            font-weight: bold;
+            transition: background-color 0.5s ease;
+        }
+
+        header {
+            background-color: #E1F0DA;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.5s ease;
+        }
+
+        header img {
+            width: 60px;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        header img:hover {
+            transform: scale(1.2);
+        }
+
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 28px;
+            margin: 0;
+            color: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+h1{
+    padding-top: 10px;
+    color: #000000;
+}
+        .logout-button,
+        .add-button {
+            
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out, color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .logout-button:hover,
+        .add-button:hover {
+           
+            transform: scale(1.1);
+        }
+
+        .add-button {
+            animation: addButtonFadeIn 1s ease-in-out;
+        }
+
+        @keyframes addButtonFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logout-button {
+            animation: logoutButtonFadeIn 1s ease-in-out;
+        }
+
+        @keyframes logoutButtonFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar {
+            padding: 10px;
+            margin: 7px;
+            border: none;
+            border-radius: 5px;
+            width: 200px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .search-bar:focus {
+            width: 300px;
+        }
+
+        .search-button,
+        .add-button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out, color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .search-button:hover {
+            background-color: #2980b9;
+            transform: scale(1.1);
+        }
+
+        .add-button:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes textFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section {
+            margin: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            color:black;
+           
+        }
+
+        /* Adjusted the border width for the table */
+    table {
+    width: 100%;
+    margin: auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 2px solid #000000;
+    color:black
+    overflow: hidden;
+    transition: border-color 0.5s ease;
+    position: relative;
+    z-index: 1;
+}
+
+
+
+        th, td {
+            border: 2px solid #444; /* Increased border width */
+            padding: 12px;
+            text-align: left;
+         
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+            height: 50px;
+        }
+
+        th {
+            background-color: #F8EDFF;
+            color: #000000;
+        }
+
+
+        tr.search-result:hover {
+            transform: scale(1.05);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .view-button {
+            background-color: #f0e16a;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Kanit', sans-serif;
+        }
+.edit-button{
+    background-color: #f0e16a;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-family: 'Kanit', sans-serif;
+}
+        .view-button:hover, .edit-button:hover {
+        
+            transform: scale(1.1);
+        }
+
+        .add-student-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .form-input {
+            margin-bottom: 15px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .view-button, .edit-button, .add-button, .search-button {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes changeColor {
+            0% {
+                background-color: #3498db;
+            }
+            25% {
+                background-color: #5dade2;
+            }
+            50% {
+                background-color: #85c1e9;
+            }
+            75% {
+                background-color: #aed6f1;
+            }
+            100% {
+                background-color: #3498db;
+            }
+        }
+
+        body.rgb-theme {
+            animation: changeColor 20s infinite;
+        }
+
+        @media screen and (max-width: 600px) {
+            .header-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-container {
+                margin-top: 20px;
+                margin-left: 0;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: none;
+            animation: fadeInOverlay 0.5s ease;
+        }
+
+        @keyframes fadeInOverlay {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .logout-button {
+  -webkit-border-radius: 14;
+  -moz-border-radius: 14;
+  border-radius: 14px;
+  -webkit-box-shadow: 4px 4px 6px #666666;
+  -moz-box-shadow: 4px 4px 6px #666666;
+  box-shadow: 4px 4px 6px #666666;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 19px;
+  background: #3498db;
+  padding: 12px 20px 12px 20px;
+  text-decoration: none;
+}
+
+.logout-button:hover {
+    background-color: rgb(210, 96, 96);
+  text-decoration: none;
+}
+ .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #2c3e50; /* Updated background color */
+            padding: 30px; /* Increased padding */
+            border-radius: 15px; /* Increased border radius */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Updated box shadow */
+            z-index: 1000;
+        }
+
+        .modal-content {
+            max-width: 500px; /* Increased max-width */
+            margin: 0 auto;
+            color: #fff;
+            font-weight: bold; /* Bolder fonts */
+        }
+
+        .form-input label {
+            color: #fff;
+        }
+
+        .form-input input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 2px solid #fff; /* Updated input border */
+            border-radius: 8px;
+            background-color: #34495e; /* Updated input background color */
+            color: #fff;
+            font-weight: bold; /* Bolder fonts */
+        }
+
+        .form-input input:focus {
+            outline: none;
+            border: 2px solid #fff;
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+<a href="https://rvce.edu.in">
+    <img src="R.V._College_of_Engineering_logo.png" alt="RVCE"></a>
+     <h1 class="h1">CSE Students</h1>
+        <div class="header-buttons">
+           <button class="add-button" onclick=" redirectToAddStudent();">Add New Student</button>
+
+            <button class="logout-button" onclick="logout()">Logout</button>
+           
+
+    
+        </div>
+    </header>
+
+
+    <section>
+      <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search by USN or Name"               class="search-bar">
+            <!-- Removed the search button from here -->
+        </div>
+
+       
+       <table>
+    <thead>
+        <tr>
+            <th style="width: 20%;">USN</th>
+            <th style="width: 30%;">Name</th>
+            <th style="width: 30%;">Email</th>
+            <th style="width: 20%;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% datas.forEach(data => { %>
+            <tr>
+                <td><%= data.USN %></td>
+                <td><%= data.Name %></td>
+                <td><%= data.Email %></td>
+                <td>
+                    <button class="btn btn-outline-success" onclick="viewDetails('<%= data.USN %>')">View Marks</button>
+                    <button class="btn btn-outline-danger" onclick="showEditForm('<%= data.USN %>')">Edit Student</button>
+                </td>
+            </tr>
+        <% }); %>
+    </tbody>
+</table>
+        <div class="modal" id="editModal">
+            <div class="modal-content">
+                <h2>Edit Student Details</h2>
+                <form id="editStudentForm" onsubmit="editStudent(); return false;">
+                    <input type="hidden" id="editUsn" value="">
+                    <div class="form-input">
+                        <label for="editName">Name:</label>
+                        <input type="text" id="editName" required>
+                    </div>
+                    <div class="form-input">
+                        <label for="editEmail">Email:</label>
+                        <input type="text" id="editEmail" required>
+                    </div>
+                    <button type="submit">Save Changes</button>
+                    <button type="button" onclick="hideEditForm()">Cancel</button>
+                </form>
+            </div>
+        </div>
+        <div class="add-student-form">
+            <h2>Add New Student</h2>
+            <form id="addStudentForm" onsubmit="addNewStudent(); return false;">
+                <div class="form-input">
+                    <label for="newUsn">USN:</label>
+                    <input type="text" id="newUsn" required>
+                </div>
+                <div class="form-input">
+                    <label for="newName">Name:</label>
+                    <input type="text" id="newName" required>
+                </div>
+                <div class="form-input">
+                    <label for="newEmail">Email:</label>
+                    <input type="text" id="newEmail" required>
+                </div>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </section>
+
+     <script>
+    
+          function showEditForm(USN) {
+            const username = '<%= username %>'
+            const subject='<%= userDetail.subject %>'
+            if(subject==='admin'){
+            var rows = document.querySelectorAll('tbody tr');
+            var rowToEdit = Array.from(rows).find(row => row.querySelector('td:first-child').textContent.trim() === USN);
+
+            if (rowToEdit) {
+                var Name = rowToEdit.querySelector('td:nth-child(2)').textContent.trim();
+                var Email = rowToEdit.querySelector('td:nth-child(3)').textContent.trim();
+
+                document.getElementById('editUsn').value = USN;
+                document.getElementById('editName').value = Name;
+                document.getElementById('editEmail').value = Email;
+
+                // Show the modal
+                var modal = document.getElementById('editModal');
+                modal.style.display = 'block';
+            } else {
+                console.error('Row not found for USN:', USN);
+            }}
+            else if(subject==='MATHS'||subject==='ADLDCO'||subject==='OS'||subject==='DSA'){
+                     window.location.href = '/marksedit?USN=' + USN;
+            }
+            
+            
+            else {
+                console.error('Row not found for USN:', USN);}
+        }
+
+        function hideEditForm() {
+            // Hide the modal
+            var modal = document.getElementById('editModal');
+            modal.style.display = 'none';
+        }
+
+        function viewDetails(USN) {
+         const username = '<%= username %>'
+         const subject='<%= userDetail.subject %>'
+         console.log('fetch',username);
+
+    // Check if the username includes a specific subject keyword
+    if (subject==='admin') {
+        window.location.href = '/stud?USN=' + USN;
+    }
+    else if(subject==='MATHS'||subject==='ADLDCO'||subject==='OS'||subject==='DSA'){
+        window.location.href = '/stud2?USN=' + USN;
+    }
+    else{
+         window.location.href = '/login';
+    }}
+
+
+        async function editStudent() {
+    var usnInput = document.getElementById('editUsn');
+    var nameInput = document.getElementById('editName');
+    var emailInput = document.getElementById('editEmail');
+
+    var USN = usnInput.value.trim();
+    var Name = nameInput.value.trim();
+    var Email = emailInput.value.trim();
+
+    if (USN && Name && Email) {
+        try {
+            const response = await fetch('/updateStudent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ USN, Name, Email }),
+            });
+
+            if (response.ok) {
+                // Update the row on the webpage
+                var row = document.querySelector(`tbody tr td:first-child:contains('${USN}')`).closest('tr');
+                row.querySelector('td:nth-child(2)').textContent = Name;
+                row.querySelector('td:nth-child(3)').textContent = Email;
+
+                // Display a success message
+                alert('Edit successful! ✔️');
+
+                // Hide the edit form modal
+                hideEditForm();
+            } else {
+                const errorData = await response.json();
+                console.error('Error:', errorData.message);
+                
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Edit successful! ✔️');
+        }
+    } else {
+        alert('Please enter Name and Email. ❌');
+    }
+}
+  function logout(){
+         window.location.href = '/login';
+       }
+        function viewAllDetails() {
+            alert('View details for all students');
+            // Implement your logic for viewing all details
+        }
+
+        function redirectToAddStudent() {
+            
+            window.location.href = '/add';
+        }
+
+        function addNewStudent() {
+            var usnInput = document.getElementById('newUsn');
+            var nameInput = document.getElementById('newName');
+            var emailInput = document.getElementById('newEmail');
+
+            var usn = usnInput.value.trim();
+            var name = nameInput.value.trim();
+            var email = emailInput.value.trim();
+
+            if (usn && name && email) {
+                // You can add logic here to save the new student data to the database
+                alert('Adding new student: ' + usn + ' - ' + name + ' - ' + email);
+
+                // Clear the form inputs
+                usnInput.value = '';
+                nameInput.value = '';
+                emailInput.value = '';
+
+                // Hide the form after adding the student
+                var form = document.querySelector('.add-student-form');
+                form.style.display = 'none';
+            } else {
+                alert('Please enter USN, Name, and Email.');
+            }
+        }
+
+         var searchInput = document.getElementById('searchInput');
+
+        // Adding an event listener to trigger search as the user types
+        searchInput.addEventListener('input', function () {
+            searchDetails();
+        });
+
+        function searchDetails() {
+            var searchValue = searchInput.value.trim().toLowerCase();
+            var rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(function (row) {
+                var usn = row.querySelector('td:nth-child(1)').textContent.trim().toLowerCase();
+                var name = row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+                var email = row.querySelector('td:nth-child(3)').textContent.trim().toLowerCase();
+
+                if (usn.includes(searchValue) || name.includes(searchValue) || email.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            var image = document.querySelector('header img.pop-out-image');
+
+            image.addEventListener('mouseover', function () {
+                image.style.transform = 'scale(1.2)';
+            });
+
+            image.addEventListener('mouseout', function () {
+                image.style.transform = 'scale(1)';
+            });
+        });
+   
+      </script>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  </body>
+
+</html>
