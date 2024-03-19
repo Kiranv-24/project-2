@@ -1,4 +1,4 @@
-//////////////////////////////new version......3---------------------------------------------------------------------------------------->
+//////////////////////////////Final version......---------------------------------------------------------------------------------------->
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -18,6 +18,9 @@ app.use(express.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 app.use(express.static('views'));
 app.use(bodyParser.json());
+const jwt = require('jsonwebtoken');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // const bodyParser = require('body-parser');
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
@@ -26,38 +29,53 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(cors());
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'veeracharij123@gmail.com ',
-        pass: '9972978411'
-    }
+app.get('/forgot-password', (req, res) => {
+    // Here you can render a password reset form or directly trigger the logic for sending the password reset email
+    res.send('Forgot password page'); // For demonstration purposes, sending a simple response
 });
+app.post('/forgot-password', (req, res) => {
+    const { email } = req.body;
 
-// app.use(express.json());
+    // Generate unique token
+    const token = jwt.sign({ email }, 'your_secret_key', { expiresIn: '1h' });
 
-app.post('/send-email', async(req, res) => {
-    console.log('Received request:', req.body);
+    // Send password reset email
+    const msg = {
+        to: 'kiranv24042004@gmail.com', // Replace this with the recipient's email
+        from: 'your_email@example.com',
+        subject: 'Password Reset',
+        text: `To reset your password, click the following link: http://yourwebsite.com/reset-password/${token}`,
+        html: `<p>To reset your password, click the following link: <a href="http://yourwebsite.com/reset-password/${token}">Reset Password</a></p>`
+    };
 
-    const { to, subject, body } = req.body;
-
-    // Send email
-    try {
-        const info = await transporter.sendMail({
-            from: 'veeracharij123@gmail.com',
-            to,
-            subject,
-            text: 'Plain text version of the email',
-            html: body
+    sgMail.send(msg)
+        .then(() => {
+            console.log('Email sent');
+            res.status(200).send('Email sent successfully');
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error sending email');
         });
+});
+// Route to handle password reset form submission
+app.post('/reset-password/:token', (req, res) => {
+    const token = req.params.token;
+    const newPassword = req.body.newPassword;
 
-        console.log('Email sent:', info);
-        res.json({ message: 'Email sent successfully!', info });
-    } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).json({ error: 'Error sending email' });
-    }
+    // Verify token
+    jwt.verify(token, 'your_secret_key', (err, decoded) => {
+        if (err) {
+            // Invalid or expired token
+            return res.status(400).send('Invalid or expired token');
+        } else {
+            // Token is valid, reset password logic here
+            // For example, update password in your database
+
+            // Redirect to login page after password reset
+            res.redirect('/login');
+        }
+    });
 });
 
 
@@ -73,6 +91,7 @@ const Data = mongoose.model("Data", new mongoose.Schema({
             t1: Number,
             q2: Number,
             t2: Number,
+            EL: Number,
             AvgQuiz: Number,
             AvgTest: Number,
             TotalClasses: Number,
@@ -84,6 +103,7 @@ const Data = mongoose.model("Data", new mongoose.Schema({
             t1: Number,
             q2: Number,
             t2: Number,
+            EL: Number,
             AvgQuiz: Number,
             AvgTest: Number,
             TotalClasses: Number,
@@ -95,6 +115,7 @@ const Data = mongoose.model("Data", new mongoose.Schema({
             t1: Number,
             q2: Number,
             t2: Number,
+            EL: Number,
             AvgQuiz: Number,
             AvgTest: Number,
             TotalClasses: Number,
@@ -106,6 +127,7 @@ const Data = mongoose.model("Data", new mongoose.Schema({
             t1: Number,
             q2: Number,
             t2: Number,
+            EL: Number,
             AvgQuiz: Number,
             AvgTest: Number,
             TotalClasses: Number,
@@ -180,6 +202,7 @@ const Datacd = mongoose.model("Datacd", new mongoose.Schema({
             t1: Number,
             q2: Number,
             t2: Number,
+            EL: Number,
             AvgQuiz: Number,
             AvgTest: Number,
             TotalClasses: Number,
@@ -191,6 +214,7 @@ const Datacd = mongoose.model("Datacd", new mongoose.Schema({
             t1: Number,
             q2: Number,
             t2: Number,
+            EL: Number,
             AvgQuiz: Number,
             AvgTest: Number,
             TotalClasses: Number,
@@ -202,6 +226,7 @@ const Datacd = mongoose.model("Datacd", new mongoose.Schema({
             t1: Number,
             q2: Number,
             t2: Number,
+            EL: Number,
             AvgQuiz: Number,
             AvgTest: Number,
             TotalClasses: Number,
@@ -213,6 +238,7 @@ const Datacd = mongoose.model("Datacd", new mongoose.Schema({
             t1: Number,
             q2: Number,
             t2: Number,
+            EL: Number,
             AvgQuiz: Number,
             AvgTest: Number,
             TotalClasses: Number,
@@ -338,7 +364,7 @@ const Datad = mongoose.model("Datad", new mongoose.Schema({
     branch: String,
 }, { collection: "detail" }));
 
-mongoose.connect("mongodb://localhost:27017/student", {
+mongoose.connect("mongodb+srv://kiranv:kiranvkitta@student.t8dgger.mongodb.net/", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
@@ -469,6 +495,17 @@ app.get('/sectionsa', checkLoggedIn, async(req, res) => {
 
     res.render('sectionsa', { username, a });
 });
+app.get('/admin', checkLoggedIn, async(req, res) => {
+    // Render your sectionsa page for logged-in users
+
+    const username = req.session.username;
+    const a = await Datad.findOne({ user: username });
+    // console.log('a:', username);
+    console.log('Data retrieved:', a);
+
+
+    res.render('admin', { username, a });
+});
 app.get('/cse_coordinator', checkLoggedIn, async(req, res) => {
     // Render your sectionsa page for logged-in users
     const username = req.session.username;
@@ -493,6 +530,11 @@ app.get('/ise_coordinator', checkLoggedIn, async(req, res) => {
 app.get('/Students', (req, res) => {
     // const username = req.session.username;
     res.render('Students');
+});
+
+app.get('/student-frontpage', (req, res) => {
+    // const username = req.session.username;
+    res.render('student-frontpage');
 });
 
 app.get('/Student', async(req, res) => {
@@ -567,11 +609,13 @@ app.post('/login', async(req, res) => {
             req.session.username = username;
             req.session.userType = userType;
             const a = await Datad.findOne({ user: username });
+            console.log("aa", userType)
 
 
-
-            if (userType === 'Admin' && a.subject === 'admin') {
-                res.redirect('/sectionsa');
+            if (userType === 'Admin' && userType !== 'Teacher') {
+                if (a.subject === 'admin') {
+                    res.redirect('/admin');
+                }
             } else if (userType === 'Coordinator') {
                 if (a.subject === 'cse' || a.subject === 'csecy' || a.subject === 'cseds') {
                     res.redirect('/cse_coordinator');
@@ -587,12 +631,12 @@ app.post('/login', async(req, res) => {
                     res.redirect('/change-password');
                 } else {
                     // Redirect to the appropriate student pge or handle it as needed
-                    return res.redirect('/Student');
+                    return res.redirect('/student-frontpage');
                 }
-            } else if (userType === 'Teacher' && a.subject !== 'cse' || a.subject !== 'ece' || a.subject !== 'ase' || a.subject !== 'cv' || a.subject !== 'ise' || a.subject !== 'me') {
+            } else if (userType === 'Teacher' && (a.subject !== 'cse' || a.subject !== 'ece' || a.subject !== 'ise' || a.subject !== 'me')) {
                 if (password === '123') {
                     res.redirect('/change-password');
-                } else {
+                } else if (password != '123') {
                     // Redirect to the appropriate student page or handle it as needed
                     return res.redirect('/sectionsa');
                 }
@@ -617,8 +661,7 @@ app.get('/cse', async(req, res) => {
         const username = req.session.username;
         const userDetail = await Datad.findOne({ user: username });
         console.log('User Detail:', userDetail);
-        // Corrected log statement
-        // Fetch data from the database
+
         const data = await fetchAllData();
 
         // Find user details for the specific user
@@ -1101,34 +1144,34 @@ app.post('/add', async(req, res) => {
             Name,
             USN,
             Email,
-            Subjects: {
-                ADLDCO: {
-                    q1: Subjects.ADLDCO.q1,
-                    t1: Subjects.ADLDCO.t1,
-                    q2: Subjects.ADLDCO.q2,
-                    t2: Subjects.ADLDCO.t2
-                },
-                DSA: {
-                    q1: Subjects.DSA.q1,
-                    t1: Subjects.DSA.t1,
-                    q2: Subjects.DSA.q2,
-                    t2: Subjects.DSA.t2
-                },
-                OS: {
-                    q1: Subjects.OS.q1,
-                    t1: Subjects.OS.t1,
-                    q2: Subjects.OS.q2,
-                    t2: Subjects.OS.t2
-                },
-                MATHS: {
-                    q1: Subjects.MATHS.q1,
-                    t1: Subjects.MATHS.t1,
-                    q2: Subjects.MATHS.q2,
-                    t2: Subjects.MATHS.t2
-                }
-            },
-            TotalClasses,
-            AttendedClasses
+            // Subjects: {
+            //     ADLDCO: {
+            //         q1: Subjects.ADLDCO.q1,
+            //         t1: Subjects.ADLDCO.t1,
+            //         q2: Subjects.ADLDCO.q2,
+            //         t2: Subjects.ADLDCO.t2
+            //     },
+            //     DSA: {
+            //         q1: Subjects.DSA.q1,
+            //         t1: Subjects.DSA.t1,
+            //         q2: Subjects.DSA.q2,
+            //         t2: Subjects.DSA.t2
+            //     },
+            //     OS: {
+            //         q1: Subjects.OS.q1,
+            //         t1: Subjects.OS.t1,
+            //         q2: Subjects.OS.q2,
+            //         t2: Subjects.OS.t2
+            //     },
+            //     MATHS: {
+            //         q1: Subjects.MATHS.q1,
+            //         t1: Subjects.MATHS.t1,
+            //         q2: Subjects.MATHS.q2,
+            //         t2: Subjects.MATHS.t2
+            //     }
+            // },
+            // TotalClasses,
+            // AttendedClasses
         });
 
         // Save the new data document to the database
@@ -1828,6 +1871,8 @@ app.post('/updateMarks', async(req, res) => {
             t2: parseFloat(req.body.t2),
             TotalClasses: parseInt(req.body.TotalClasses),
             AttendedClasses: parseInt(req.body.AttendedClasses),
+            // EL: parseInt(req.body.EL),
+
         };
 
         // Save the updated data
@@ -1985,6 +2030,7 @@ app.post('/updateall', async(req, res) => {
                     q2: parseFloat(req.body[`q2_${usn}`]) || 0,
                     t1: parseFloat(req.body[`t1_${usn}`]) || 0,
                     t2: parseFloat(req.body[`t2_${usn}`]) || 0,
+                    EL: parseFloat(req.body[`EL_${usn}`]) || 0,
                 };
 
                 // Save the updated data
@@ -2018,11 +2064,129 @@ app.post('/updateall', async(req, res) => {
     }
 });
 
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Destination folder for uploaded files
+app.use('/uploads', express.static('uploads'));
+
+app.get('/material/:filename', (req, res) => {
+    const fileName = req.params.filename;
+    res.sendFile(path.join(__dirname, 'uploads', fileName));
+});
+const fileSchema = new mongoose.Schema({
+    name: String,
+    link: String,
+    contentType: String,
+    data: Buffer,
+    username: String, // Added username field
+    subject: String // Added subject field
+});
+app.get('/material-stud', async(req, res) => {
+    const studentUSN = req.query.USN;
+    const subject = req.query.subject;
+    const username = req.session.username;
+    const userType = req.session.userType;
+    const data = await Data.findOne({ Email: username });
+    // console.log(aa)
+    // console.log('cccc:', subject)
+    // Find data for the specified USN
+    // const data = await Data.findOne({ USN: studentUSN });
+    const a = await Datad.findOne({ user: username })
+    if (data) {
+        const plainData = data.toObject();
+        res.render('material-stud', { data: plainData, subject, a });
+    } else {
+        // If data is not found, send an error response
+        res.status(404).send('Student not found');
+    }
+});
+app.get('/material', (req, res) => {
+    // const username = req.session.username;
+    res.render('material');
+});
+const File = mongoose.model('File', fileSchema);
+
+// Route for uploading files
+// Route for uploading files
+app.post('/upload', upload.single('file'), async(req, res) => {
+    try {
+        // Assuming subject is obtained from session data or request body
+        const username = req.session.username;
+
+        if (!req.file) {
+            return res.status(400).send('No file uploaded.');
+        }
+
+        // Find user data based on the username
+        const userData = await Datad.findOne({ user: username });
+        const subject = userData.subject;
+        if (!userData) {
+            return res.status(404).send('User not found.');
+        }
+
+        // Constructing the direct link to the uploaded file
+        const fileLink = `${req.protocol}://${req.get('host')}/${req.file.filename}`;
+        console.log("File link:", fileLink); // Log the file link to console
+
+        // Create a new instance of the File model and save it to the database
+        const newFile = new File({
+            name: req.file.originalname, // Use the original filename
+            link: fileLink, // Store the direct link in the database
+            contentType: req.file.mimetype,
+            data: req.file.buffer,
+            username: username, // Save username
+            subject: subject // Save subject
+        });
+        await newFile.save();
+
+        // Redirect the user to the uploaded file link
+        res.redirect(fileLink);
+
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        res.status(500).send('Internal server error.');
+    }
+});
+
+const announcementSchema = new mongoose.Schema({
+    message: String,
+    timestamp: { type: Date, default: Date.now }
+});
+
+// Create Announcement model
+const Announcement = mongoose.model('Announcement', announcementSchema);
+
+// Route for uploading announcements
+app.post('/announcement', async(req, res) => {
+    try {
+        const message = req.body.message;
+
+        // Save announcement to the database
+        const newAnnouncement = new Announcement({ message });
+        await newAnnouncement.save();
+
+        res.status(201).send('Announcement saved successfully');
+    } catch (error) {
+        console.error('Error saving announcement:', error);
+        res.status(500).send('Internal server error.');
+    }
+});
+app.get('/materials', async(req, res) => {
+    try {
+        // Retrieve all files from the database
+        const allFiles = await File.find({});
+
+        // Retrieve all announcements from the database
+        const allAnnouncements = await Announcement.find({});
+
+        // Render the materials page and pass the files and announcements data
+        res.render('materials', { files: allFiles, announcements: allAnnouncements });
+    } catch (error) {
+        console.error('Error retrieving materials:', error);
+        res.status(500).send('Internal server error.');
+    }
+});
 
 
-function redirectToPreviousPage(res) {
-    res.redirect('back');
-}
 
 app.listen(port, () => {
     console.log(`Server running on Port:${port}`);
